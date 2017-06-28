@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>x42tLODProxyWAR</display-name>
+
+  <!-- Default servlet -->
+	<servlet>
+		<servlet-name>X42TDefaultServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TDefaultServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TDefaultServlet</servlet-name>
+		<url-pattern></url-pattern>
+	</servlet-mapping>
+	<!-- sparql servlet -->
+	<servlet>
+		<servlet-name>X42TSparqlServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TSparqlServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TSparqlServlet</servlet-name>
+		<url-pattern>/sparql</url-pattern>
+	</servlet-mapping>
+	<!-- resource servlet -->
+	<servlet>
+		<servlet-name>X42TResourceServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TResourceServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TResourceServlet</servlet-name>
+		<url-pattern>/id/*</url-pattern>
+		<url-pattern>/kos/*</url-pattern>
+	</servlet-mapping>
+	<!-- data servlet -->
+	<servlet>
+		<servlet-name>X42TDataServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TDataServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TDataServlet</servlet-name>
+		<url-pattern>/data/*</url-pattern>
+	</servlet-mapping>
+	<!-- ontology servlet -->
+	<servlet>
+		<servlet-name>X42TOntologyServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TOntologyServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TOntologyServlet</servlet-name>
+		<url-pattern>/def/*</url-pattern>
+	</servlet-mapping>
+
+</web-app>
