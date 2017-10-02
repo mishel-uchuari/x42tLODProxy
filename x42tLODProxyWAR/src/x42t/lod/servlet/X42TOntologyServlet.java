@@ -42,6 +42,9 @@ public class X42TOntologyServlet extends HttpServlet {
 					}
 			}else{
 				//habra que comprobar las ontologias permitidas
+				if (ontologyName.endsWith(".owl")){
+					ontologyName = ontologyName.substring(0, ontologyName.lastIndexOf(".owl"));
+				}
 				goToDefinitionOwl(req, resp, ontologyName);
 			}
 		} catch (Exception e) {
