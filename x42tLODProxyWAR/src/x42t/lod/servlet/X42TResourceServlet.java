@@ -51,7 +51,7 @@ public class X42TResourceServlet extends HttpServlet {
 					HttpResponse response = X42THttpManager.getInstance().doGetRequest(req, resp, url, null);
 					HttpEntity entity = response.getEntity();
 
-			            // Read the contents of an entity and return it as a String.
+			        // Read the contents of an entity and return it as a String.
 			        String content = EntityUtils.toString(entity);
 			        boolean page = false;
 			        JSONParser parser = new JSONParser();
@@ -61,11 +61,13 @@ public class X42TResourceServlet extends HttpServlet {
 			  		}
 
 					if (page){
+						//Redirect to page
 						String basePagePath = MessageFormat.format(X42TPropertiesManager.getInstance().getProperty("lod.page.url.base"),lang);
 						String redirectUri = basePagePath + resourceURI.replaceFirst("/"+resourceId+"/", "/page/");
 						resp.setStatus(HttpServletResponse.SC_SEE_OTHER);
 						resp.addHeader("Location", redirectUri);
 					}else{
+						//Redirect to elda
 						String baseDocPath = MessageFormat.format(X42TPropertiesManager.getInstance().getProperty("lod.doc.url.base"),lang);
 						String redirectUri = baseDocPath + resourceURI.replaceFirst("/"+resourceId+"/", "");
 						resp.setStatus(HttpServletResponse.SC_SEE_OTHER);

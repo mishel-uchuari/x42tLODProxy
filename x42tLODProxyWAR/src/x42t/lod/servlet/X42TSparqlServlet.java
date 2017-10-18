@@ -62,6 +62,7 @@ public class X42TSparqlServlet extends HttpServlet {
 	 * @throws Exception exception
 	 */
 	private void goToEndpoint(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		//Open yasgui component
 		req.setAttribute("url", X42TPropertiesManager.getInstance().getProperty("lod.sparql.endpoint"));
 		getServletContext().getRequestDispatcher("/pages/endpoint.jsp").forward
            (req, resp);

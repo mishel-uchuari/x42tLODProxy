@@ -26,8 +26,9 @@ public class X42TDataServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
 
-		String url = X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url");
-		String resourceURI = req.getRequestURI().substring(req.getRequestURI().indexOf(req.getContextPath())+ req.getContextPath().length());
+	
+		String url = X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url"); //recuperamos la url de la triplestore
+		String resourceURI = req.getRequestURI().substring(req.getRequestURI().indexOf(req.getContextPath())+ req.getContextPath().length());//recuperamos la uri del recurso solicitado
 
 		String acceptHeader = null;
 		if (req.getHeader("Accept").contains(X42TMIMEtype.HTML.mimetypevalue())){
