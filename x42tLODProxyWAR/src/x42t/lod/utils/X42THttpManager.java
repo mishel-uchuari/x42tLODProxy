@@ -50,16 +50,16 @@ public class X42THttpManager {
 	 * @return url with params
 	 * @throws UnsupportedEncodingException
 	 */
-	private static String addParamsToUrl (HttpServletRequest theReq, String url) throws UnsupportedEncodingException{
+	private static String addParamsToUrl (final HttpServletRequest theReq, final String url) throws UnsupportedEncodingException{
 		String completeUrl = url;
 
-		Enumeration<String> aParamsEnum = theReq.getParameterNames();
+		final Enumeration<String> aParamsEnum = theReq.getParameterNames();
 		if (aParamsEnum.hasMoreElements()){
 			completeUrl = completeUrl + "?";
 		}
 		while (aParamsEnum.hasMoreElements()) {
-			String aParamName = aParamsEnum.nextElement();
-			String aParamVal = URLEncoder.encode(theReq.getParameter(aParamName), "UTF-8");
+			final String aParamName = aParamsEnum.nextElement();
+			final String aParamVal = URLEncoder.encode(theReq.getParameter(aParamName), "UTF-8");
 			completeUrl = completeUrl +aParamName + "=" + aParamVal;
 			if (aParamsEnum.hasMoreElements()){
 				completeUrl = completeUrl + "&";
@@ -74,11 +74,11 @@ public class X42THttpManager {
 	 * @param httpget the new http connection
 	 * @throws UnsupportedEncodingException
 	 */
-	private static void copyHeaders (HttpServletRequest req, HttpGet httpget, String acceptHeader) throws UnsupportedEncodingException{
+	private static void copyHeaders (final HttpServletRequest req, final HttpGet httpget, final String acceptHeader) throws UnsupportedEncodingException{
 		//headers
-		Enumeration<String> aHeadersEnum = req.getHeaderNames();
+		final Enumeration<String> aHeadersEnum = req.getHeaderNames();
 		while (aHeadersEnum.hasMoreElements()) {
-			String aHeaderName = aHeadersEnum.nextElement();
+			final String aHeaderName = aHeadersEnum.nextElement();
 			String aHeaderVal = req.getHeader(aHeaderName);
 			if ("accept".equals(aHeaderName)){
 				aHeaderVal = acceptHeader!= null?acceptHeader:aHeaderVal;
@@ -94,12 +94,12 @@ public class X42THttpManager {
 	 * @param httppost the new http connection
 	 * @throws UnsupportedEncodingException
 	 */
-	private static void copyHeaders (HttpServletRequest req, HttpPost httppost) throws UnsupportedEncodingException{
+	private static void copyHeaders (final HttpServletRequest req, final HttpPost httppost) throws UnsupportedEncodingException{
 		//headers
-		Enumeration<String> aheadersenum = req.getHeaderNames();
+		final Enumeration<String> aheadersenum = req.getHeaderNames();
 		while (aheadersenum.hasMoreElements()) {
-			String aheadername = aheadersenum.nextElement();
-			String aheaderval = req.getHeader(aheadername);
+			final String aheadername = aheadersenum.nextElement();
+			final String aheaderval = req.getHeader(aheadername);
 			if (!"content-length".equals(aheadername.toLowerCase())){
 						httppost.setHeader(aheadername, aheaderval);
 
@@ -114,7 +114,7 @@ public class X42THttpManager {
 	 * @param theResp
 	 * @throws IOException
 	 */
-	private static void copyResponseToServletResponse(HttpResponse response, HttpServletResponse theResp ) throws IOException{
+	private static void copyResponseToServletResponse(final HttpResponse response, final HttpServletResponse theResp ) throws IOException{
 		// set the same Headers
 		/*for(Header aHeader : response.getAllHeaders()) {
 			theResp.setHeader(aHeader.getName(), aHeader.getValue());
@@ -139,7 +139,7 @@ public class X42THttpManager {
 			IOUtils.copy(aInStream,aOutStream);
 
 		}
-		catch(IOException ioe) {
+		catch(final IOException ioe) {
 			ioe.printStackTrace();
 		}
 		finally {
@@ -157,8 +157,8 @@ public class X42THttpManager {
 	 * @param url
 	 * @throws Exception
 	 */
-	public void redirectGetRequest(HttpServletRequest theReq, HttpServletResponse theResp, String url, String acceptHeader) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
+	public void redirectGetRequest(final HttpServletRequest theReq, final HttpServletResponse theResp, final String url, final String acceptHeader) throws Exception {
+		final HttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = null;
 		HttpResponse response = null;
 
@@ -166,7 +166,7 @@ public class X42THttpManager {
 
 		try {
 			//parameters
-			String theReqUrl = addParamsToUrl(theReq, url);
+			final String theReqUrl = addParamsToUrl(theReq, url);
 			httpget = new HttpGet(theReqUrl);
 			//headers
 			copyHeaders(theReq, httpget, acceptHeader);
@@ -174,7 +174,7 @@ public class X42THttpManager {
 			// Create a response handler
 			response = httpclient.execute(httpget);
 			copyResponseToServletResponse(response, theResp);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 	        throw ex;
 	    } finally {
 			httpclient.getConnectionManager().closeExpiredConnections();
@@ -189,15 +189,15 @@ public class X42THttpManager {
 	 * @param url
 	 * @throws Exception
 	 */
-	public void redirectPostRequest(HttpServletRequest theReq, HttpServletResponse theResp, String url) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
+	public void redirectPostRequest(final HttpServletRequest theReq, final HttpServletResponse theResp, final String url) throws Exception {
+		final HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = null;
 		HttpResponse response = null;
 
 		try {
 			httppost = new HttpPost(url);
-			String body = getRequestBody(theReq);
-			HttpEntity entity = new ByteArrayEntity(body.getBytes());
+			final String body = getRequestBody(theReq);
+			final HttpEntity entity = new ByteArrayEntity(body.getBytes());
 			httppost.setEntity(entity);
 
 			copyHeaders(theReq, httppost);
@@ -206,7 +206,7 @@ public class X42THttpManager {
 			response = httpclient.execute(httppost);
 
 			copyResponseToServletResponse(response, theResp);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 	        throw ex;
 	    } finally {
 			httpclient.getConnectionManager().closeExpiredConnections();
@@ -220,17 +220,17 @@ public class X42THttpManager {
 	 * @return
 	 * @throws IOException
 	 */
-	private static String getRequestBody(HttpServletRequest request) throws IOException {
+	private static String getRequestBody(final HttpServletRequest request) throws IOException {
 
 	    String body = null;
-	    StringBuilder stringBuilder = new StringBuilder();
+	    final StringBuilder stringBuilder = new StringBuilder();
 	    BufferedReader bufferedReader = null;
 
 	    try {
-	        InputStream inputStream = request.getInputStream();
+	        final InputStream inputStream = request.getInputStream();
 	        if (inputStream != null) {
 	            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-	            char[] charBuffer = new char[128];
+	            final char[] charBuffer = new char[128];
 	            int bytesRead = -1;
 	            while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
 	                stringBuilder.append(charBuffer, 0, bytesRead);
@@ -238,13 +238,13 @@ public class X42THttpManager {
 	        } else {
 	            stringBuilder.append("");
 	        }
-	    } catch (IOException ex) {
+	    } catch (final IOException ex) {
 	        throw ex;
 	    } finally {
 	        if (bufferedReader != null) {
 	            try {
 	                bufferedReader.close();
-	            } catch (IOException ex) {
+	            } catch (final IOException ex) {
 	                throw ex;
 	            }
 	        }
@@ -262,8 +262,8 @@ public class X42THttpManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public HttpResponse doGetRequest(HttpServletRequest theReq, HttpServletResponse theResp, String url, String accept) throws Exception {
-		HttpClient httpclient = new DefaultHttpClient();
+	public HttpResponse doGetRequest(final HttpServletRequest theReq, final HttpServletResponse theResp, final String url, final String accept) throws Exception {
+		final HttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = null;
 
 		String theReqUrl = url;
@@ -272,12 +272,12 @@ public class X42THttpManager {
 
 		try {
 			//parameters
-			Enumeration<String> aParamsEnum = theReq.getParameterNames();
+			final Enumeration<String> aParamsEnum = theReq.getParameterNames();
 			if (aParamsEnum.hasMoreElements()){
 				theReqUrl = theReqUrl + "?";
 			}
 			while (aParamsEnum.hasMoreElements()) {
-				String aParamName = aParamsEnum.nextElement();
+				final String aParamName = aParamsEnum.nextElement();
 				String aParamVal = theReq.getParameter(aParamName);
 				if (aParamName.equals("query")){
 					aParamVal = URLEncoder.encode(theReq.getParameter(aParamName), "UTF-8");
@@ -293,10 +293,10 @@ public class X42THttpManager {
 			httpget = new HttpGet(theReqUrl);
 
 			//headers
-			Enumeration<String> aHeadersEnum = theReq.getHeaderNames();
+			final Enumeration<String> aHeadersEnum = theReq.getHeaderNames();
 			while (aHeadersEnum.hasMoreElements()) {
-				String aHeaderName = aHeadersEnum.nextElement();
-				String aHeaderVal = theReq.getHeader(aHeaderName);
+				final String aHeaderName = aHeadersEnum.nextElement();
+				final String aHeaderVal = theReq.getHeader(aHeaderName);
 				if ("accept".equals(aHeaderName.toLowerCase()) && (accept == null || accept.isEmpty())){
 						httpget.setHeader(aHeaderName, "application/json");
 				}else{
@@ -320,7 +320,7 @@ public class X42THttpManager {
 	 * @param theReq original request
 	 * @return lang
 	 */
-	public String getLangFromResquest (HttpServletRequest theReq) throws IOException{
+	public String getLangFromResquest (final HttpServletRequest theReq) throws IOException{
 		return getLangFromHostName(theReq.getServerName());
 	}
 
@@ -330,10 +330,10 @@ public class X42THttpManager {
 	 * @return lang
 	 * @throws IOException
 	 */
-	private static String getLangFromHostName(String hostName) throws IOException  {
+	private static String getLangFromHostName(final String hostName) throws IOException  {
 		String lang = "es";
-		String[] pattern = X42TPropertiesManager.getInstance().getProperty("lod.hostName.pattern").split(".");
-		String[] host = hostName.split(".");
+		final String[] pattern = X42TPropertiesManager.getInstance().getProperty("lod.hostName.pattern").split(".");
+		final String[] host = hostName.split(".");
 		for (int i=0;i<pattern.length;i++) {
 		    if (pattern[i].equals("{lang}")) {
 		        lang = host[i];
@@ -349,8 +349,8 @@ public class X42THttpManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public String getAcceptFromURI (String uri) throws IOException{
-		String ext = uri.substring(uri.lastIndexOf("."));
+	public String getAcceptFromURI (final String uri) throws IOException{
+		final String ext = uri.substring(uri.lastIndexOf("."));
 		String acceptHeader =  X42TMIMEtype.RDFXML.mimetypevalue();
 		switch (ext) {
 		case ".jsonld":
@@ -374,8 +374,8 @@ public class X42THttpManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean isURIWithExtension (String uri) throws IOException{
-		String extension = uri.substring(uri.lastIndexOf("."));
+	public boolean isURIWithExtension (final String uri) throws IOException{
+		final String extension = uri.substring(uri.lastIndexOf("."));
 		boolean is =  false;
 		switch (extension) {
 		case ".jsonld":
@@ -399,7 +399,7 @@ public class X42THttpManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public String getURIWithoutExtension (String uri) throws IOException{
+	public String getURIWithoutExtension (final String uri) throws IOException{
 		return uri.substring(0,uri.lastIndexOf("."));
 	}
 

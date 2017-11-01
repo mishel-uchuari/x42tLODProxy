@@ -15,6 +15,7 @@ import x42t.lod.utils.X42TPropertiesManager;
 
 /**
  * This servlet resolves sparql calls
+ * URL: /sparql/
  * @author grozadilla
  *
  */
@@ -24,48 +25,65 @@ public class X42TSparqlServlet extends HttpServlet {
 
 	final static Logger logger = Logger.getLogger(X42TSparqlServlet.class);
 
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// DO GET
+/////////////////////////////////////////////////////////////////////////////////////////
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(final HttpServletRequest req, final HttpServletResponse resp)
 		throws ServletException, IOException {
 		try {
+			logger.info("Invoked Url " + req.getRequestURI() + " - Accept " + req.getHeader("Accept"));
+
 			if (req.getHeader("Accept").contains(X42TMIMEtype.HTML.mimetypevalue())){
-				if(logger.isDebugEnabled()){
-				    logger.debug("Load Yasgui component");
-				}
+				logger.debug("Load Yasgui component");
 				goToEndpoint(req, resp);
-			}else{
-				X42THttpManager.getInstance().redirectGetRequest(req, resp, X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url"), null);
+			} else {
+				X42THttpManager.getInstance().redirectGetRequest(req,
+													resp,
+													X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url"),
+													req.getHeader("Accept"));
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
+			e.printStackTrace();
+			logger.error("X42TSparqlServlet - " + e.getMessage());
 			throw new ServletException(e);
 		}
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// DO POST
+/////////////////////////////////////////////////////////////////////////////////////////
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
 		try {
+			logger.info("Invoked Url " + req.getRequestURI() + " - Accept " + req.getHeader("Accept"));
+
 			if (req.getHeader("Accept").contains(X42TMIMEtype.HTML.mimetypevalue())){
+				logger.debug("Load Yasgui component");
 				goToEndpoint(req, resp);
-			}else{
-				X42THttpManager.getInstance().redirectPostRequest(req,resp, X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url"));
+			} else {
+				X42THttpManager.getInstance().redirectPostRequest(req,
+													resp,
+													X42TPropertiesManager.getInstance().getProperty("lod.triplestore.url"));
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new ServletException(e);
 		}
 	}
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// PRIVATE METHODS
+/////////////////////////////////////////////////////////////////////////////////////////
 	/**
 	 * Redirects to Sparql endpoint page
 	 * @param req the request
 	 * @param resp the response
 	 * @throws Exception exception
 	 */
-	private void goToEndpoint(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	private void goToEndpoint(final HttpServletRequest req, final HttpServletResponse resp) throws Exception {
 		//Open yasgui component
 		req.setAttribute("url", X42TPropertiesManager.getInstance().getProperty("lod.sparql.endpoint"));
-		getServletContext().getRequestDispatcher("/pages/endpoint.jsp").forward
-           (req, resp);
+		getServletContext().getRequestDispatcher("/pages/endpoint.jsp").forward(req, resp);
 	}
 
 }

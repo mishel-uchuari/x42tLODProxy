@@ -22,7 +22,7 @@
 			beforeSend : function(xhr) {
 				xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-				
+
 	    	},
 	    	crossDomain: false
 		});

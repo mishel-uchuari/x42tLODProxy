@@ -35,8 +35,8 @@ public class X42TPropertiesManager {
 	 * @throws IOException
 	 */
 	public void loadProperties () throws IOException{
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		InputStream input = classLoader.getResourceAsStream("proxy.properties");
+		final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		final InputStream input = classLoader.getResourceAsStream("proxy.properties");
 		prop = new Properties();
 		prop.load(input);
 		logger.info("Properties file loaded");
@@ -47,7 +47,7 @@ public class X42TPropertiesManager {
 	 * @param property the property key
 	 * @return the property value
 	 */
-	public String getProperty(String property){
+	public String getProperty(final String property){
 		return prop.getProperty(property);
 	}
 }

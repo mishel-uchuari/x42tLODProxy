@@ -63,5 +63,30 @@
 		<servlet-name>X42TOntologyServlet</servlet-name>
 		<url-pattern>/def/*</url-pattern>
 	</servlet-mapping>
+	<!-- pages servlet -->
+	<servlet>
+		<servlet-name>X42TPageServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TPageServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TPageServlet</servlet-name>
+		<url-pattern>/page/*</url-pattern>
+	</servlet-mapping>
+	<!-- ERROR
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/error/error.jsp</location>
+	</error-page>
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/error/error.jsp</location>
+	</error-page>
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/error/error.jsp</location>
+	</error-page> -->
 
 </web-app>

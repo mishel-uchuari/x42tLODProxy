@@ -18,15 +18,15 @@ public class X42TDefaultServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1031422249396784970L;
 
-	final static Logger logger = Logger.getLogger(X42TDefaultServlet.class);
+	private static final Logger logger = Logger.getLogger(X42TDefaultServlet.class);
 
 
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doGet(final HttpServletRequest req, final HttpServletResponse resp)
 		throws ServletException, IOException {
 		try {
 			goToWeb(req, resp);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new ServletException(e);
 		}
 	}
@@ -39,7 +39,7 @@ public class X42TDefaultServlet extends HttpServlet {
 	 * @param resp the response
 	 * @throws Exception exception
 	 */
-	private void goToWeb(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	private void goToWeb(final HttpServletRequest req, final HttpServletResponse resp) throws Exception {
 		getServletContext().getRequestDispatcher("/pages/lod_euskadi.html").forward
            (req, resp);
 	}
