@@ -38,8 +38,10 @@
 		<!-- ============================================================================================================================== -->
 		<!-- Logging                                                                                                                        -->
 		<!-- ============================================================================================================================== -->
-		<dependency org="log4j" name="log4j" rev="1.2.14" transitive="false"/>
-		<dependency org="commons-logging" name="commons-logging" rev="1.2" transitive="false"/>
+		<!--<dependency org="log4j" name="log4j" rev="1.2.14" transitive="false"/>-->
+		<!--<dependency org="commons-logging" name="commons-logging" rev="1.2" transitive="false"/>-->
+		<dependency org="org.slf4j" name="log4j-over-slf4j" rev="1.7.25"/>
+		<dependency org="ch.qos.logback" name="logback-classic" rev="1.2.3"/>
 
 		<!-- ============================================================================================================================== -->
 		<!-- JSon                                                                                                                          -->

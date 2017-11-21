@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="logPath" value="c:/datos/x42tLODProxy/log" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+	
+	<appender name="datos_app_log"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- Este nivel limita el nivel de trazas del resto de aplicaciones donde se usa esta configuracion, 
+				 por esta razón ponemos el nivel mas bajo de trazas y que sea cada aplicacion la que limite el nivel de sus trazas. -->
+			<level>DEBUG</level> 
+		</filter>
+		<file>${logPath}/x42tLODProxy.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%date %-5level %logger{0} [%method - %line] - %message%n %exception{30}</pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${logPath}/rolled/x42tLODProxy_%d{yyyy-MM-dd}.log.gz
+                        </fileNamePattern>
+			<!-- keep 10 days' worth of history -->
+			<MaxHistory>10</MaxHistory>
+		</rollingPolicy>
+
+	</appender>
+
+	<!-- Send logs to both console and file audit -->
+	<logger name="x42t.lod" level="debug"
+		additivity="false">
+		<appender-ref ref="datos_app_log" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="datos_app_log" />
+	</root>
+
+</configuration>
