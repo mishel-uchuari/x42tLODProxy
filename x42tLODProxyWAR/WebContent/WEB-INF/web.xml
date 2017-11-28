@@ -37,7 +37,6 @@
 	<servlet-mapping>
 		<servlet-name>X42TResourceServlet</servlet-name>
 		<url-pattern>/id/*</url-pattern>
-		<url-pattern>/kos/*</url-pattern>
 	</servlet-mapping>
 	<!-- data servlet -->
 	<servlet>
@@ -74,6 +73,18 @@
 	<servlet-mapping>
 		<servlet-name>X42TPageServlet</servlet-name>
 		<url-pattern>/page/*</url-pattern>
+	</servlet-mapping>
+	<!-- kos servlet -->
+	<servlet>
+		<servlet-name>X42TKosServlet</servlet-name>
+		<servlet-class>
+			x42t.lod.servlet.X42TKosServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>X42TKosServlet</servlet-name>
+		<url-pattern>/kos/*</url-pattern>
 	</servlet-mapping>
 	<!-- ERROR
 	<error-page>
